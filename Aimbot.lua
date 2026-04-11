@@ -1,4 +1,3 @@
--- LocalScript (place in StarterPlayerScripts)
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
@@ -14,7 +13,6 @@ local Strength = 0.2
 local Enabled = false
 local ESPEnabled = false
 
--- Ensure character is ready
 LocalPlayer.CharacterAdded:Connect(function(char)
     char:WaitForChild("Head")
 end)
@@ -22,20 +20,17 @@ if LocalPlayer.Character then
     LocalPlayer.Character:WaitForChild("Head")
 end
 
--- GUI Setup
 local gui = Instance.new("ScreenGui")
 gui.Name = "GrandfuscatorGUI"
 gui.Parent = CoreGui
 gui.ResetOnSpawn = false
 
--- Logo Animation Screen
 local logoScreen = Instance.new("Frame")
 logoScreen.Name = "LogoScreen"
 logoScreen.Size = UDim2.new(1, 0, 1, 0)
 logoScreen.BackgroundColor3 = Color3.fromRGB(10, 10, 20)
 logoScreen.Parent = gui
 
--- Grandfuscator Logo
 local logoFrame = Instance.new("Frame")
 logoFrame.Name = "LogoFrame"
 logoFrame.Size = UDim2.new(0, 300, 0, 300)
@@ -43,7 +38,6 @@ logoFrame.Position = UDim2.new(0.5, -150, 0.5, -150)
 logoFrame.BackgroundTransparency = 1
 logoFrame.Parent = logoScreen
 
--- Letter G Background
 local gBackground = Instance.new("Frame")
 gBackground.Name = "GBackground"
 gBackground.Size = UDim2.new(1, 0, 1, 0)
@@ -55,7 +49,6 @@ local gCorner = Instance.new("UICorner")
 gCorner.CornerRadius = UDim.new(0, 20)
 gCorner.Parent = gBackground
 
--- Letter G Text
 local gText = Instance.new("TextLabel")
 gText.Name = "GText"
 gText.Size = UDim2.new(1, 0, 1, 0)
@@ -67,7 +60,6 @@ gText.Font = Enum.Font.GothamBlack
 gText.BackgroundTransparency = 1
 gText.Parent = logoFrame
 
--- Full Name Text
 local nameText = Instance.new("TextLabel")
 nameText.Name = "NameText"
 nameText.Size = UDim2.new(1, 0, 0, 40)
@@ -79,7 +71,6 @@ nameText.Font = Enum.Font.GothamBold
 nameText.BackgroundTransparency = 1
 nameText.Parent = logoFrame
 
--- Loading Bar
 local loadingBar = Instance.new("Frame")
 loadingBar.Name = "LoadingBar"
 loadingBar.Size = UDim2.new(0, 200, 0, 4)
@@ -103,9 +94,7 @@ local loadingFillCorner = Instance.new("UICorner")
 loadingFillCorner.CornerRadius = UDim.new(1, 0)
 loadingFillCorner.Parent = loadingFill
 
--- Play logo animation
 spawn(function()
-    -- Scale up animation
     local scaleTween = TweenService:Create(gBackground, TweenInfo.new(1, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {
         Size = UDim2.new(1, 20, 1, 20),
         Position = UDim2.new(0.5, -160, 0.5, -160)
@@ -114,7 +103,6 @@ spawn(function()
     
     task.wait(1.5)
     
-    -- Loading bar animation
     local fillTween = TweenService:Create(loadingFill, TweenInfo.new(2, Enum.EasingStyle.Linear), {
         Size = UDim2.new(1, 0, 1, 0)
     })
@@ -122,7 +110,6 @@ spawn(function()
     
     task.wait(2.5)
     
-    -- Fade out animation
     local fadeTween = TweenService:Create(logoScreen, TweenInfo.new(0.8, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
         BackgroundTransparency = 1
     })
@@ -132,8 +119,7 @@ spawn(function()
     logoScreen.Visible = false
 end)
 
--- Main container with safe area for mobile
-wait(3.5) -- Wait for logo animation to complete
+wait(3.5)
 
 local mainContainer = Instance.new("Frame")
 mainContainer.Name = "MainContainer"
@@ -141,7 +127,6 @@ mainContainer.Size = UDim2.new(1, 0, 1, 0)
 mainContainer.BackgroundTransparency = 1
 mainContainer.Parent = gui
 
--- Safe area for mobile (avoid notches and home indicator)
 local safeArea = Instance.new("Frame")
 safeArea.Name = "SafeArea"
 safeArea.Size = UDim2.new(1, -40, 1, -40)
@@ -149,17 +134,15 @@ safeArea.Position = UDim2.new(0, 20, 0, 20)
 safeArea.BackgroundTransparency = 1
 safeArea.Parent = mainContainer
 
--- Minimal Box Container (Hidden by default)
 local boxContainer = Instance.new("Frame")
 boxContainer.Name = "BoxContainer"
 boxContainer.Size = UDim2.new(0, 300, 0, 280)
 boxContainer.Position = UDim2.new(0.5, -150, 0.5, -140)
 boxContainer.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 boxContainer.BorderSizePixel = 0
-boxContainer.Visible = false -- Hidden initially
+boxContainer.Visible = false
 boxContainer.Parent = safeArea
 
--- Box corner and stroke for modern look
 local boxCorner = Instance.new("UICorner")
 boxCorner.CornerRadius = UDim.new(0, 12)
 boxCorner.Parent = boxContainer
@@ -169,7 +152,7 @@ boxStroke.Thickness = 2
 boxStroke.Color = Color3.fromRGB(80, 80, 120)
 boxStroke.Parent = boxContainer
 
--- Title inside the box
+-- Title
 local title = Instance.new("TextLabel")
 title.Name = "Title"
 title.Size = UDim2.new(1, 0, 0, 40)
@@ -189,7 +172,7 @@ tabContainer.Position = UDim2.new(0, 0, 0, 45)
 tabContainer.BackgroundTransparency = 1
 tabContainer.Parent = boxContainer
 
--- Main Tab Button
+-- Main Tab
 local mainTabButton = Instance.new("TextButton")
 mainTabButton.Name = "MainTab"
 mainTabButton.Size = UDim2.new(0.5, 0, 1, 0)
@@ -205,7 +188,7 @@ local mainTabCorner = Instance.new("UICorner")
 mainTabCorner.CornerRadius = UDim.new(0, 8)
 mainTabCorner.Parent = mainTabButton
 
--- Config Tab Button
+-- Config Tab
 local configTabButton = Instance.new("TextButton")
 configTabButton.Name = "ConfigTab"
 configTabButton.Size = UDim2.new(0.5, 0, 1, 0)
@@ -249,7 +232,7 @@ buttonContainer.Position = UDim2.new(0, 0, 0, 0)
 buttonContainer.BackgroundTransparency = 1
 buttonContainer.Parent = mainContent
 
--- Toggle Button (minimal style)
+-- Button Toggle
 local toggleButton = Instance.new("TextButton")
 toggleButton.Name = "LockOnToggle"
 toggleButton.Size = UDim2.new(0.45, 0, 1, 0)
@@ -281,7 +264,7 @@ local espCorner = Instance.new("UICorner")
 espCorner.CornerRadius = UDim.new(0, 8)
 espCorner.Parent = espButton
 
--- Status text
+-- Status
 local statusText = Instance.new("TextLabel")
 statusText.Name = "StatusText"
 statusText.Size = UDim2.new(1, 0, 0, 30)
@@ -293,7 +276,7 @@ statusText.Font = Enum.Font.Gotham
 statusText.BackgroundTransparency = 1
 statusText.Parent = mainContent
 
--- Config Tab Content - Sliders
+-- Config Tab Content
 local function createSlider(parent, name, icon, min, max, default, yPos)
     local sliderFrame = Instance.new("Frame")
     sliderFrame.Name = name .. "Slider"
@@ -397,12 +380,11 @@ local function createSlider(parent, name, icon, min, max, default, yPos)
     return sliderFrame
 end
 
--- Create sliders in config content
 createSlider(configContent, "Strength", "🎯", 0.05, 0.9, Strength, 0)
 createSlider(configContent, "FOV", "🔍", 30, 120, FOVAngle, 50)
 createSlider(configContent, "Distance", "📏", 50, 300, MaxDistance, 100)
 
--- Close button (top right corner of box)
+-- Close button
 local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.Size = UDim2.new(0, 30, 0, 30)
@@ -418,7 +400,7 @@ local closeCorner = Instance.new("UICorner")
 closeCorner.CornerRadius = UDim.new(0, 8)
 closeCorner.Parent = closeButton
 
--- Draggable Open Button (now in center)
+-- Draggable Open Button
 local openButton = Instance.new("TextButton")
 openButton.Name = "OpenButton"
 openButton.Size = UDim2.new(0, 70, 0, 70)
@@ -439,7 +421,6 @@ openStroke.Thickness = 2
 openStroke.Color = Color3.fromRGB(100, 100, 150)
 openStroke.Parent = openButton
 
--- Make open button draggable
 local dragConnection
 local dragging = false
 local dragStart = nil
@@ -469,7 +450,6 @@ UserInputService.InputChanged:Connect(function(input)
             startPos.Y.Offset + delta.Y
         )
         
-        -- Keep within screen bounds
         local maxX = safeArea.AbsoluteSize.X - openButton.AbsoluteSize.X
         local maxY = safeArea.AbsoluteSize.Y - openButton.AbsoluteSize.Y
         
@@ -482,7 +462,7 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Ring indicator (visual FOV) - Minimal style
+-- Indicator (visual FOV)
 local ring = Instance.new("Frame")
 ring.Name = "FOVRing"
 ring.Size = UDim2.new(0, FOVAngle*4, 0, FOVAngle*4)
@@ -502,7 +482,7 @@ uiStroke.Color = Color3.fromRGB(255, 50, 50)
 uiStroke.Transparency = 0.8
 uiStroke.Parent = ring
 
--- Tab switching logic
+-- Tab switching 
 local function switchTab(tabName)
     if tabName == "Main" then
         mainContent.Visible = true
@@ -521,7 +501,6 @@ local function switchTab(tabName)
     end
 end
 
--- Tab button connections
 mainTabButton.MouseButton1Click:Connect(function()
     switchTab("Main")
 end)
@@ -530,10 +509,8 @@ configTabButton.MouseButton1Click:Connect(function()
     switchTab("Config")
 end)
 
--- Initial tab setup
 switchTab("Main")
 
--- Toggle button logic
 toggleButton.MouseButton1Click:Connect(function()
     Enabled = not Enabled
     toggleButton.Text = Enabled and "🔒" or "🔓"
@@ -542,13 +519,12 @@ toggleButton.MouseButton1Click:Connect(function()
     statusText.Text = "Status: " .. (Enabled and "ON" or "OFF")
 end)
 
--- ESP toggle logic
 espButton.MouseButton1Click:Connect(function()
     ESPEnabled = not ESPEnabled
     espButton.Text = ESPEnabled and "👁" or "📷"
     espButton.BackgroundColor3 = ESPEnabled and Color3.fromRGB(80, 100, 80) or Color3.fromRGB(60, 80, 60)
     
-    -- Update ESP highlights
+    -- ESP highlights
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character then
             local highlight = player.Character:FindFirstChild("ESPHighlight")
@@ -571,23 +547,19 @@ espButton.MouseButton1Click:Connect(function()
     end
 end)
 
--- Close box button
 closeButton.MouseButton1Click:Connect(function()
     boxContainer.Visible = false
     openButton.Visible = true
 end)
 
--- Open box button
 openButton.MouseButton1Click:Connect(function()
     boxContainer.Visible = true
     openButton.Visible = false
 end)
 
--- Player connections for ESP
 Players.PlayerAdded:Connect(function(player)
     player.CharacterAdded:Connect(function()
         if ESPEnabled then
-            -- Update ESP for new character
             local highlight = player.Character:FindFirstChild("ESPHighlight")
             if not highlight then
                 highlight = Instance.new("Highlight")
@@ -619,7 +591,6 @@ for _, player in pairs(Players:GetPlayers()) do
     end)
 end
 
--- Line of sight check using raycast
 local function hasLineOfSight(originPart, targetPart)
     if not originPart or not targetPart then
         return false
@@ -683,7 +654,6 @@ local function getTarget()
     return closestTarget
 end
 
--- Update loop for aim assist
 RunService.RenderStepped:Connect(function(dt)
     if Enabled then
         local target = getTarget()
@@ -691,7 +661,6 @@ RunService.RenderStepped:Connect(function(dt)
             local desiredCFrame = CFrame.new(Camera.CFrame.Position, target.Position)
             Camera.CFrame = Camera.CFrame:Lerp(desiredCFrame, Strength * dt * 60) -- Frame rate independent
             
-            -- Visual feedback when locked
             uiStroke.Color = Color3.fromRGB(0, 255, 0)
             uiStroke.Transparency = 0.5
             statusText.Text = "Status: LOCKED"
@@ -704,5 +673,3 @@ RunService.RenderStepped:Connect(function(dt)
         statusText.Text = "Status: OFF"
     end
 end)
-
-print("Grandfuscator GUI loaded with animated logo and draggable button!")
